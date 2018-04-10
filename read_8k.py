@@ -1,5 +1,30 @@
 import datetime
 import csv
+from HTMLParser import HTMLParser
+
+class MyHTMLParser(HTMLParser):
+    found_apple = False
+    # def handle_starttag(self, tag, attrs):
+    #     print 'starttag\n'
+    #     print tag
+    #     print attrs
+    #
+    # def handle_endtag(self, tag):
+    #     print 'endtag\n'
+    #     print tag
+
+    def handle_data(self, data):
+
+        if data == 'AAPL':
+            self.found_apple = True
+        elif data == 'N/A':
+            self.found_apple = False
+        if self.found_apple:
+            print 'data\n'
+            print data
+        # print data
+
+htmlparser = MyHTMLParser()
 
 def getprices():
     prices = {}
@@ -114,5 +139,12 @@ def open_8k():
     #         cur_doc.append(l)
     # print doc_list
 
-open_8k()
+# open_8k()
 
+def open_eps():
+    eps_reports = {}
+    f = open('EPS/20030115.txt', 'r').read()
+    htmlparser.feed(f)
+    # for l in f:
+
+open_eps()
